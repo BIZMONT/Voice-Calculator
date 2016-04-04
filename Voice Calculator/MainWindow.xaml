@@ -5,8 +5,152 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Voice_Calculator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Voice Calculator" Height="375" Width="300" ResizeMode="NoResize">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="btn1" 
+                Content="1"
+                Style="{StaticResource Default}"
+                Grid.Row="2" Grid.Column="1" 
+                Click="btn_Click"/>
+        <Button x:Name="btn2" 
+                Content="2"
+                Style="{StaticResource Default}"
+                Grid.Row="2" Grid.Column="2"
+                Click="btn_Click"/>
+        <Button x:Name="btn3" 
+                Content="3"
+                Style="{StaticResource Default}"
+                Grid.Row="2" Grid.Column="3"
+                Click="btn_Click"/>
+        <Button x:Name="btn4" 
+                Content="4"
+                Style="{StaticResource Default}"
+                Grid.Row="3" Grid.Column="1"
+                Click="btn_Click"/>
+        <Button x:Name="btn5" 
+                Content="5"
+                Style="{StaticResource Default}"
+                Grid.Row="3" Grid.Column="2"
+                Click="btn_Click"/>
+        <Button x:Name="btn6" 
+                Content="6"
+                Style="{StaticResource Default}"
+                Grid.Row="3" Grid.Column="3"
+                Click="btn_Click"/>
+        <Button x:Name="btn7" 
+                Content="7"
+                Style="{StaticResource Default}"
+                Grid.Row="4" Grid.Column="1"
+                Click="btn_Click"/>
+        <Button x:Name="btn8" 
+                Content="8"
+                Style="{StaticResource Default}"
+                Grid.Row="4" Grid.Column="2"
+                Click="btn_Click"/>
+        <Button x:Name="btn9" 
+                Content="9"
+                Style="{StaticResource Default}"
+                Grid.Row="4" Grid.Column="3"
+                Click="btn_Click"/>
+        <Button x:Name="btnClear" 
+                Content="Clear"
+                Style="{StaticResource Default}"
+                Grid.Row="1" Grid.Column="1"
+                Click="btn_Click"/>
+        <Button x:Name="btnCancel" 
+                Content="Cancel"
+                Style="{StaticResource Default}"
+                Grid.Row="1" Grid.Column="2"
+                Click="btn_Click"/>
+        <Button x:Name="btnDiv" 
+                Content="/"
+                Style="{StaticResource Default}"
+                Grid.Row="2" Grid.Column="4"
+                Click="btn_Click"/>
+        <Button x:Name="btnMul" 
+                Content="*"
+                Style="{StaticResource Default}"
+                Grid.Row="3" Grid.Column="4"
+                Click="btn_Click"/>
+        <Button x:Name="btnMinus" 
+                Content="-"
+                Style="{StaticResource Default}"
+                Grid.Row="4" Grid.Column="4"
+                Click="btn_Click"/>
+        <Button x:Name="btnPlus" 
+                Content="+"
+                Style="{StaticResource Default}"
+                Grid.Row="5" Grid.Column="4"
+                Click="btn_Click"/>
+        <Button x:Name="btnEqual" 
+                Content="="
+                Style="{StaticResource Default}"
+                Grid.Row="5" Grid.Column="3"
+                Click="btn_Click"/>
+        <Button x:Name="btn0" 
+                Content="0"
+                Style="{StaticResource Default}"
+                Grid.Row="5" Grid.Column="2"
+                Click="btn_Click"/>
+        <Button x:Name="btnDot" 
+                Content="."
+                Style="{StaticResource Default}"
+                Grid.Row="5"
+                Click="btn_Click" Grid.ColumnSpan="2"/>
+        <Border BorderBrush="Gray" 
+                BorderThickness="1" 
+                Grid.ColumnSpan="4" Grid.Column="1" 
+                Height="60" Margin="10,10,10,0" 
+                VerticalAlignment="Top">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="tbExpression"
+                         BorderThickness="0"
+                         HorizontalContentAlignment="Right"
+                         VerticalContentAlignment="Center" 
+                         Grid.Row="1" 
+                         FontSize="20" 
+                         FontWeight="Bold" 
+                         Padding="5,0" 
+                         IsReadOnly="True"
+                         MaxLength="15"/>
+                <Label x:Name="lbMessanges" 
+        		HorizontalContentAlignment="Left"
+        		VerticalContentAlignment="Center"/>
+            </Grid>
+
+        </Border>
+        <Button x:Name="btnMute" 
+                Content="Mute"
+                Style="{StaticResource Default}"
+                Grid.Row="1" 
+                Grid.Column="3"
+                Click="btnMute_Click"/>
+        <Button x:Name="btnRec" 
+                Content="Rec"
+                Style="{StaticResource Default}"
+                Grid.Row="1" Grid.Column="4"
+                Click="btnRec_Click"/>
     </Grid>
 </Window>
