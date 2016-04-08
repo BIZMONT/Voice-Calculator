@@ -56,6 +56,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Calculator.cs" />
+    <Compile Include="MicrosoftRecognizer.cs" />
+    <Compile Include="Recognizer.cs" />
     <Page Include="ButtonStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

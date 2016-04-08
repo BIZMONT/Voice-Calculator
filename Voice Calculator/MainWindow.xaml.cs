@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Speech;
 using System.Speech.Synthesis;
 using System.Speech.Recognition;
 
@@ -23,15 +12,11 @@ namespace Voice_Calculator
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const int ELEMENTS_COUNT = 1000;
-
         private bool operationUsed = false;
         private bool isRecognizing = true;
 
-        private string[] operations = new string[] { "+", "-", "*", "/", "=" };
-
-        SpeechRecognitionEngine recEngine;
         SpeechSynthesizer speechSynth;
+        MicrosoftRecognizer recognizer;
 
         public MainWindow()
         {
@@ -43,33 +28,20 @@ namespace Voice_Calculator
             speechSynth.Volume = 100;
             speechSynth.Rate = 1;
 
-            recEngine = new SpeechRecognitionEngine();
+            recognizer = new MicrosoftRecognizer();
+            recognizer.Recognized += Recognizer_Recognized;
+            recognizer.Start();
+        }
 
-            Choices commands = new Choices();
-            string[] numbers = new string[ELEMENTS_COUNT];
-
-            for (int i = 0; i < ELEMENTS_COUNT; i++)
-            {
-                numbers[i] = i.ToString();
-            }
-
-            commands.Add(numbers);
-            commands.Add(new string[] { ".", "point", "result", "clear", "cancel", "delete", "exit", "shut down", "say my name" });
-            commands.Add(operations);
-
-            GrammarBuilder grammaBuilder = new GrammarBuilder();
-            grammaBuilder.Append(commands);
-
-            Grammar grammar = new Grammar(grammaBuilder);
-
-            recEngine.LoadGrammarAsync(grammar);
-            recEngine.SetInputToDefaultAudioDevice();
-            recEngine.SpeechRecognized += RecEngine_SpeechRecognized;
-            recEngine.RecognizeAsync(RecognizeMode.Multiple);
+        private void Recognizer_Recognized(object sender, EventArgs e)
+        {
+            string command = (e as SpeechRecognizedEventArgs).Result.Text;
+            EnterCommand(command);
         }
 
         private void EnterCommand(string command)
         {
+            //TODO: That's so bad code. I know it)
             command = command.ToLower();
             string res;
             switch (command)
@@ -86,11 +58,11 @@ namespace Voice_Calculator
                 case "delete":
                 case "cancel":
 
-                    if (tbExpression.Text.Length > 2 && operations.Contains((tbExpression.Text[tbExpression.Text.Length - 2]).ToString()))
+                    if (tbExpression.Text.Length > 2 && recognizer.operations.Contains((tbExpression.Text[tbExpression.Text.Length - 2]).ToString()))
                     {
                         tbExpression.Text = tbExpression.Text.Substring(0, tbExpression.Text.Length - 3);
                     }
-                    else if(tbExpression.Text.Length > 0)
+                    else if (tbExpression.Text.Length > 0)
                     {
                         tbExpression.Text = tbExpression.Text.Substring(0, tbExpression.Text.Length - 1);
                     }
@@ -108,19 +80,24 @@ namespace Voice_Calculator
                 case "-":
                 case "*":
                 case "/":
-                    if (!(tbExpression.Text == string.Empty && (command == "+" || command == "-" || command == "*" || command == "/")))
+                    if (tbExpression.Text == string.Empty && (command == "+" || command == "-" || command == "*" || command == "/"))
                     {
-                        if (operationUsed)
-                        {
-                            operationUsed = false;
-
-                            res = Calculate(tbExpression.Text);
-                            tbExpression.Text = res;
-                        }
-                        speechSynth.SpeakAsync(command);
-                        tbExpression.Text += " " + command + " ";
-                        operationUsed = true;
+                        break;
                     }
+                    if(tbExpression.Text.Length>2 && recognizer.operations.Contains(tbExpression.Text[tbExpression.Text.Length - 2].ToString()))
+                    {
+                        break;
+                    }
+                    if (operationUsed)
+                    {
+                        operationUsed = false;
+
+                        res = Calculate(tbExpression.Text);
+                        tbExpression.Text = res;
+                    }
+                    speechSynth.SpeakAsync(command);
+                    tbExpression.Text += " " + command + " ";
+                    operationUsed = true;
                     break;
                 case "point":
                     speechSynth.SpeakAsync(command);
@@ -147,7 +124,6 @@ namespace Voice_Calculator
             }
             catch (Exception)
             {
-                lbMessanges.Content = "Error operation";
                 return text;
             }
 
@@ -166,12 +142,6 @@ namespace Voice_Calculator
             }
         }
 
-        private void RecEngine_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
-        {
-            string command = e.Result.Text;
-            EnterCommand(command);
-        }
-
         private void btn_Click(object sender, RoutedEventArgs e)
         {
             EnterCommand((sender as Button).Content.ToString());
@@ -182,19 +152,19 @@ namespace Voice_Calculator
         }
         private void btnRec_Click(object sender, RoutedEventArgs e)
         {
-            if(isRecognizing)
+            if (isRecognizing)
             {
-                recEngine.RecognizeAsyncStop();
+                recognizer.Stop();
             }
             else
             {
-                recEngine.RecognizeAsync(RecognizeMode.Multiple);
+                recognizer.Start();
             }
         }
 
         private void MainWindow_Closed(object sender, EventArgs e)
         {
-            recEngine.RecognizeAsyncStop();
+            recognizer.Stop();
         }
     }
 }

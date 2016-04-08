@@ -115,32 +115,6 @@
                 Style="{StaticResource Default}"
                 Grid.Row="5"
                 Click="btn_Click" Grid.ColumnSpan="2"/>
-        <Border BorderBrush="Gray" 
-                BorderThickness="1" 
-                Grid.ColumnSpan="4" Grid.Column="1" 
-                Height="60" Margin="10,10,10,0" 
-                VerticalAlignment="Top">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="2*"/>
-                </Grid.RowDefinitions>
-                <TextBox x:Name="tbExpression"
-                         BorderThickness="0"
-                         HorizontalContentAlignment="Right"
-                         VerticalContentAlignment="Center" 
-                         Grid.Row="1" 
-                         FontSize="20" 
-                         FontWeight="Bold" 
-                         Padding="5,0" 
-                         IsReadOnly="True"
-                         MaxLength="15"/>
-                <Label x:Name="lbMessanges" 
-        		HorizontalContentAlignment="Left"
-        		VerticalContentAlignment="Center"/>
-            </Grid>
-
-        </Border>
         <Button x:Name="btnMute" 
                 Content="Mute"
                 Style="{StaticResource Default}"
@@ -152,5 +126,14 @@
                 Style="{StaticResource Default}"
                 Grid.Row="1" Grid.Column="4"
                 Click="btnRec_Click"/>
+        <TextBox x:Name="tbExpression"
+        	BorderThickness="0"
+        	HorizontalContentAlignment="Right"
+        	VerticalContentAlignment="Center" 
+        	FontSize="20" 
+        	FontWeight="Bold" 
+        	Padding="5,0" 
+        	IsReadOnly="True"
+        	MaxLength="15" Grid.ColumnSpan="5" Margin="10"/>
     </Grid>
 </Window>
